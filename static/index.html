@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VisionForensics-X — Spatial &amp; Frequency AI Image Forensics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <!-- Ambient subtle grid & radial depth -->
+  <div class="bg-mesh" aria-hidden="true"></div>
+
+  <!-- Top Navigation -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#workbench" class="brand" aria-label="VisionForensics-X Home">
+        <div class="brand-shield">
+          <svg viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <path d="M18 3L5 8.5V17.5C5 25.8 10.5 32.9 18 35C25.5 32.9 31 25.8 31 17.5V8.5L18 3Z" stroke="url(#shieldGrad)" stroke-width="2" fill="rgba(99, 102, 241, 0.1)" />
+            <path d="M9.5 18C11.8 13.8 14.7 12 18 12C21.3 12 24.2 13.8 26.5 18C24.2 22.2 21.3 24 18 24C14.7 24 11.8 22.2 9.5 18Z" stroke="#A5B4FC" stroke-width="1.6" />
+            <circle cx="18" cy="18" r="3.2" fill="#6875F5" />
+            <defs>
+              <linearGradient id="shieldGrad" x1="5" y1="3" x2="31" y2="35" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#818CF8" />
+                <stop offset="1" stop-color="#4F46E5" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">VisionForensics-<span>X</span></span>
+          <span class="brand-sub">AI IMAGE FORENSICS PLATFORM</span>
+        </div>
+      </a>
+
+      <nav class="topnav" aria-label="Primary Navigation">
+        <button type="button" class="topnav-link active" data-scroll="#heroSection">Overview</button>
+        <button type="button" class="topnav-link" data-scroll="#workbench">Forensic Workbench</button>
+        <button type="button" class="topnav-link" data-scroll="#architectureSection">Architecture</button>
+      </nav>
+
+      <div class="topbar-actions">
+        <div class="engine-pill" id="engineStatusPill" title="Configured via .env (GROQ_API_KEY / OPENAI_API_KEY)">
+          <span class="status-dot" id="engineStatusDot"></span>
+          <span id="engineStatusText">Checking Engine…</span>
+        </div>
+        <button type="button" class="btn-outline-pill pressable" id="openLoginBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span>Login</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <!-- Hero Banner (Matches top panel of reference image, strictly scoped to Image Forensics) -->
+    <section class="hero-section" id="heroSection">
+      <div class="hero-copy">
+        <p class="eyebrow">REAL OR AI? LET THE EVIDENCE DECIDE.</p>
+        <h1 class="hero-title">VisionForensics-<span class="accent-x">X</span></h1>
+        <p class="hero-subtitle">Look beyond the pixels.</p>
+        <p class="hero-desc">
+          Distinguish authentic optical photographs from diffusion synthesis, GAN upsampling, and localized inpainting through parallel <strong>Spatial RGB</strong>, <strong>2D Frequency (FFT/ELA)</strong>, and <strong>VLM Semantic</strong> fusion.
+        </p>
+
+        <div class="hero-pillars" role="list">
+          <div class="pillar-chip" role="listitem">
+            <div class="pillar-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="3" width="18" height="18" rx="3"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <path d="M21 15l-5-5L5 21"/>
+              </svg>
+            </div>
+            <div>
+              <div class="pillar-title">Spatial &amp; ELA Branch</div>
+              <div class="pillar-meta">Noise Residuals &amp; Splicing</div>
+            </div>
+          </div>
+
+          <div class="pillar-chip" role="listitem">
+            <div class="pillar-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M2 12h4l3-8 4 16 3-8h6"/>
+              </svg>
+            </div>
+            <div>
+              <div class="pillar-title">2D FFT Spectrum</div>
+              <div class="pillar-meta">Periodic Grid Artifacts</div>
+            </div>
+          </div>
+
+          <div class="pillar-chip" role="listitem">
+            <div class="pillar-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 8v4l3 3"/>
+              </svg>
+            </div>
+            <div>
+              <div class="pillar-title">VLM Semantic Audit</div>
+              <div class="pillar-meta">Groq + OpenAI Fallback</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-cta-row">
+          <button type="button" class="btn-primary pressable" id="heroUploadBtn">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <span>Upload an Image</span>
+            <span class="arrow-shift">→</span>
+          </button>
+          <button type="button" class="btn-secondary pressable" id="heroSampleBtn">
+            Run Live Demo Sample
+          </button>
+        </div>
+      </div>
+
+      <!-- Tactile Forensic Evidence Card Stack (Replaces generic stock eye graphic) -->
+      <div class="hero-stage" aria-label="Interactive Forensic Preview">
+        <div class="stage-grid-words" aria-hidden="true">
+          <span>ANALYZE</span>
+          <span>DETECT</span>
+          <span>VERIFY</span>
+        </div>
+        <div class="evidence-stack">
+          <div class="evidence-card card-ai" data-sample-trigger="ai_diffusion_synth.png">
+            <img src="/samples/ai_diffusion_synth.png" alt="Synthetic Diffusion Sample" loading="eager" />
+            <div class="evidence-scanline"></div>
+            <div class="evidence-badge badge-danger">
+              <span class="badge-icon">▲</span> AI Generated · 94%
+            </div>
+          </div>
+          <div class="evidence-card card-edit" data-sample-trigger="inpainted_region_edit.jpg">
+            <img src="/samples/inpainted_region_edit.jpg" alt="Inpainted Region Sample" loading="eager" />
+            <div class="evidence-badge badge-warn">
+              <span class="badge-icon">◆</span> Inpainted Region
+            </div>
+          </div>
+          <div class="evidence-card card-real" data-sample-trigger="authentic_camera_capture.jpg">
+            <img src="/samples/authentic_camera_capture.jpg" alt="Authentic Camera Sample" loading="eager" />
+            <div class="evidence-badge badge-success">
+              <span class="badge-icon">✓</span> Real · Canon EOS R5
+            </div>
+          </div>
+        </div>
+        <p class="stage-caption">Every image leaves a spectral trace. Click any sample card to inspect.</p>
+      </div>
+    </section>
+
+    <!-- Main Application Workbench (Matches bottom-right dashboard in reference image) -->
+    <section class="workbench-shell" id="workbench" aria-label="Image Forensics Workbench">
+      <!-- Left Sidebar -->
+      <aside class="wb-sidebar">
+        <div class="wb-nav" role="tablist" aria-label="Workbench Views">
+          <button type="button" class="wb-nav-item active pressable" role="tab" aria-selected="true" data-wb-tab="detect">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+              <rect x="3" y="3" width="18" height="18" rx="3"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+            <span>Image Detection</span>
+          </button>
+
+          <button type="button" class="wb-nav-item pressable" role="tab" aria-selected="false" data-wb-tab="spectral">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+              <circle cx="12" cy="12" r="9"/>
+              <circle cx="12" cy="12" r="4"/>
+              <line x1="12" y1="3" x2="12" y2="5"/>
+              <line x1="12" y1="19" x2="12" y2="21"/>
+            </svg>
+            <span>Spectral &amp; ELA Matrix</span>
+          </button>
+
+          <button type="button" class="wb-nav-item pressable" role="tab" aria-selected="false" data-wb-tab="history">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+              <polyline points="1 4 1 10 7 10"/>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+              <polyline points="12 7 12 12 15 15"/>
+            </svg>
+            <span>History</span>
+            <span class="nav-count" id="historyCountBadge">0</span>
+          </button>
+
+          <button type="button" class="wb-nav-item pressable" role="tab" aria-selected="false" data-wb-tab="reports">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="8" y1="13" x2="16" y2="13"/>
+              <line x1="8" y1="17" x2="13" y2="17"/>
+            </svg>
+            <span>Forensic Reports</span>
+          </button>
+
+          <button type="button" class="wb-nav-item pressable" role="tab" aria-selected="false" data-wb-tab="settings">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            <span>VLM &amp; Settings</span>
+          </button>
+        </div>
+
+        <div class="wb-user-footer">
+          <div class="user-avatar" id="userAvatarBadge">M</div>
+          <div class="user-meta">
+            <div class="user-name" id="userNameDisplay">Mini</div>
+            <div class="user-role">Forensic Analyst · Image-Only Mode</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center & Right Dynamic Panels -->
+      <div class="wb-content">
+        <!-- TAB 1: IMAGE DETECTION WORKBENCH -->
+        <div class="wb-panel active" id="panel-detect">
+          <div class="wb-header-row">
+            <div>
+              <h2 class="wb-title">Image Detection</h2>
+              <p class="wb-subtitle">Upload a still image to inspect spatial artifacts, 2D FFT frequency peaks, and VLM semantic consistency.</p>
+            </div>
+            <div class="wb-header-Controls">
+              <button type="button" class="btn-ghost pressable hidden" id="newScanBtn">
+                ← Upload Another Image
+              </button>
+            </div>
+          </div>
+
+          <div class="wb-grid">
+            <!-- Left/Center Stage: Dropzone OR Interactive Canvas Viewer -->
+            <div class="wb-stage-col">
+              <!-- Dropzone Card -->
+              <div class="dropzone-card" id="dropzoneCard" tabindex="0" role="button" aria-label="Upload or drag and drop an image file">
+                <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/bmp,image/tiff" hidden />
+                <div class="dropzone-icon-wrap">
+                  <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+                    <path d="M12 13v6"/>
+                    <path d="m9.5 15.5 2.5-2.5 2.5 2.5"/>
+                  </svg>
+                </div>
+                <div class="dropzone-title">Drag &amp; drop your image here</div>
+                <div class="dropzone-or">or</div>
+                <button type="button" class="btn-choose pressable" id="chooseFileBtn">Choose File</button>
+                <div class="dropzone-hint">Supports: JPG, PNG, WEBP (Max 12MB · Still Images Only)</div>
+
+                <!-- Staged Progress Overlay during analysis -->
+                <div class="scan-overlay hidden" id="scanOverlay" aria-live="polite">
+                  <div class="scan-spinner"></div>
+                  <div class="scan-stage-label" id="scanStageLabel">Extracting EXIF &amp; Quantization Tables…</div>
+                  <progress id="scanProgressBar" max="100" value="25">25%</progress>
+                </div>
+              </div>
+
+              <!-- Interactive Result Inspector (Hidden until analysis completes) -->
+              <div class="inspector-card hidden" id="inspectorCard">
+                <div class="layer-toolbar">
+                  <div class="layer-tabs" role="tablist" aria-label="Forensic Visual Layers">
+                    <button type="button" class="layer-tab active pressable" data-layer="heatmap">Grad-CAM / Noise Heatmap</button>
+                    <button type="button" class="layer-tab pressable" data-layer="original">Original RGB</button>
+                    <button type="button" class="layer-tab pressable" data-layer="fft">2D FFT Spectrum</button>
+                    <button type="button" class="layer-tab pressable" data-layer="ela">ELA Residuals</button>
+                  </div>
+                  <div class="layer-controls">
+                    <label for="heatmapOpacity" class="slider-label" id="opacityControlWrap">
+                      <span>Overlay</span>
+                      <input type="range" id="heatmapOpacity" min="0" max="100" value="82" />
+                    </label>
+                    <label for="toggleRegionsCheck" class="checkbox-label">
+                      <input type="checkbox" id="toggleRegionsCheck" class="visually-hidden" checked />
+                      <span>Regions</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="canvas-viewport" id="canvasViewport">
+                  <img id="baseImageLayer" alt="Analyzed base image" />
+                  <img id="overlayImageLayer" alt="Forensic overlay layer" />
+                  <div id="bboxOverlayContainer" class="bbox-container"></div>
+                </div>
+
+                <div class="inspector-footer">
+                  <div class="meta-chip"><span class="meta-k">ID:</span> <span id="resReportId">—</span></div>
+                  <div class="meta-chip"><span class="meta-k">Resolution:</span> <span id="resDims">—</span></div>
+                  <div class="meta-chip"><span class="meta-k">Format:</span> <span id="resFormat">—</span></div>
+                  <div class="meta-chip"><span class="meta-k">Latency:</span> <span id="resLatency">—</span></div>
+                </div>
+              </div>
+
+              <!-- Sample Images Strip (Matches reference bottom strip) -->
+              <div class="samples-section">
+                <div class="samples-header">
+                  <span class="samples-title">Try with calibrated forensic samples</span>
+                  <span class="samples-hint">Click any image to run full pipeline →</span>
+                </div>
+                <div class="samples-row" id="samplesRow">
+                  <!-- Populated dynamically from /api/samples -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: "How it works" before scan, Multi-Head Telemetry after scan -->
+            <div class="wb-side-col">
+              <!-- Default How It Works Card -->
+              <div class="how-card" id="howItWorksCard">
+                <h3 class="side-card-title">How it works?</h3>
+                <ol class="step-list">
+                  <li class="step-item">
+                    <span class="step-num">1</span>
+                    <div>
+                      <div class="step-name">Upload Still Image</div>
+                      <p class="step-desc">Select a JPG, PNG, or WEBP image. EXIF optics and quantization headers are parsed immediately.</p>
+                    </div>
+                  </li>
+                  <li class="step-item">
+                    <span class="step-num">2</span>
+                    <div>
+                      <div class="step-name">Dual-Branch + VLM Analysis</div>
+                      <p class="step-desc">Combines 2D Fast Fourier Transform (FFT), Error Level Analysis (ELA), high-pass noise kurtosis, and Groq/OpenAI VLM inspection.</p>
+                    </div>
+                  </li>
+                  <li class="step-item">
+                    <span class="step-num">3</span>
+                    <div>
+                      <div class="step-name">Localized Heatmap &amp; Report</div>
+                      <p class="step-desc">Inspect suspicious regions interactively and export a structured JSON or printable PDF dossier.</p>
+                    </div>
+                  </li>
+                </ol>
+
+                <div class="env-mini-box">
+                  <div class="env-mini-title">VLM Routing Priority (<code>.env</code>)</div>
+                  <div class="env-mini-line"><span>1. Primary:</span> <code>GROQ_API_KEY</code> (Qwen3.8 Vision)</div>
+                  <div class="env-mini-line"><span>2. Secondary:</span> <code>OPENROUTER_API_KEY</code> (Nemotron VL Free)</div>
+                  <div class="env-mini-line"><span>3. Fallback:</span> <code>OPENAI_API_KEY</code> (GPT-4o-mini)</div>
+                  <div class="env-mini-line"><span>4. Offline:</span> Local FFT + ELA + SRM Fusion</div>
+                </div>
+              </div>
+
+              <!-- Forensic Decision & Telemetry Card (Shown when results arrive) -->
+              <div class="telemetry-card hidden" id="telemetryCard">
+                <div class="verdict-banner" id="verdictBanner">
+                  <div class="verdict-top">
+                    <div>
+                      <span class="verdict-kicker">FORENSIC VERDICT</span>
+                      <h3 class="verdict-label" id="verdictLabel">—</h3>
+                    </div>
+                    <div class="verdict-score-pill">
+                      <span class="score-num" id="synthProbNum">0%</span>
+                      <span class="score-sub">Synthetic Prob.</span>
+                    </div>
+                  </div>
+                  <div class="verdict-cat" id="manipulationCategory">—</div>
+                </div>
+
+                <!-- Branch Fusion Bars -->
+                <div class="telemetry-block">
+                  <div class="block-title-row">
+                    <span>Multi-Branch Fusion Breakdown</span>
+                    <span class="mono-tag" id="activeVlmBadge">Signal + VLM</span>
+                  </div>
+
+                  <div class="metric-bar-group">
+                    <div class="metric-label-row">
+                      <span>Spatial &amp; ELA Residual Branch</span>
+                      <span class="mono-val" id="scoreSpatial">0%</span>
+                    </div>
+                    <div class="metric-track"><div class="metric-fill" id="fillSpatial"></div></div>
+                  </div>
+
+                  <div class="metric-bar-group">
+                    <div class="metric-label-row">
+                      <span>2D FFT Frequency Spectrum</span>
+                      <span class="mono-val" id="scoreFreq">0%</span>
+                    </div>
+                    <div class="metric-track"><div class="metric-fill" id="fillFreq"></div></div>
+                  </div>
+
+                  <div class="metric-bar-group">
+                    <div class="metric-label-row">
+                      <span>VLM Semantic &amp; Physics Audit</span>
+                      <span class="mono-val" id="scoreVlm">0%</span>
+                    </div>
+                    <div class="metric-track"><div class="metric-fill" id="fillVlm"></div></div>
+                  </div>
+
+                  <div class="metric-bar-group">
+                    <div class="metric-label-row">
+                      <span>EXIF / Quantization Container</span>
+                      <span class="mono-val" id="scoreMeta">0%</span>
+                    </div>
+                    <div class="metric-track"><div class="metric-fill" id="fillMeta"></div></div>
+                  </div>
+                </div>
+
+                <!-- VLM & Signal Explainability Findings -->
+                <div class="telemetry-block">
+                  <div class="block-title-row">
+                    <span>Forensic Evidence &amp; VLM Notes</span>
+                  </div>
+                  <p class="vlm-summary-text" id="vlmReasoningText">—</p>
+                  <ul class="findings-list" id="findingsList"></ul>
+                </div>
+
+                <!-- Generator Family Attribution -->
+                <div class="telemetry-block">
+                  <div class="block-title-row">
+                    <span>Source Attribution &amp; Reliability</span>
+                    <span class="uncertainty-pill" id="uncertaintyBadge">Low Uncertainty</span>
+                  </div>
+                  <div id="attributionList" class="attribution-list"></div>
+                </div>
+
+                <!-- Quick Export Actions -->
+                <div class="report-actions-row">
+                  <button type="button" class="btn-primary btn-sm pressable" id="exportPdfBtn">
+                    Print / Save PDF Dossier
+                  </button>
+                  <button type="button" class="btn-secondary btn-sm pressable" id="exportJsonBtn">
+                    Download JSON
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: SPECTRAL & ELA MATRIX VIEW (All 4 Layers Side-by-Side + Radial Profile) -->
+        <div class="wb-panel" id="panel-spectral">
+          <div class="wb-header-row">
+            <div>
+              <h2 class="wb-title">Spectral &amp; ELA Matrix</h2>
+              <p class="wb-subtitle">Simultaneous 4-quadrant inspection of Spatial RGB, Grad-CAM/Noise Localization, 2D FFT Magnitude, and Error Level Analysis.</p>
+            </div>
+          </div>
+          <div class="quad-grid" id="quadMatrixGrid">
+            <div class="quad-cell">
+              <div class="quad-title">1. Original RGB Input</div>
+              <img id="quadOrig" alt="Original RGB" />
+            </div>
+            <div class="quad-cell">
+              <div class="quad-title">2. Suspicious-Region Localization Heatmap</div>
+              <img id="quadHeat" alt="Localization Heatmap" />
+            </div>
+            <div class="quad-cell">
+              <div class="quad-title">3. 2D Fast Fourier Transform (Log-Magnitude)</div>
+              <img id="quadFft" alt="2D FFT Spectrum" />
+            </div>
+            <div class="quad-cell">
+              <div class="quad-title">4. Error Level Analysis (90% JPEG Re-encode)</div>
+              <img id="quadEla" alt="ELA Map" />
+            </div>
+          </div>
+          <div class="radial-chart-card">
+            <div class="block-title-row">
+              <span>Azimuthal Radial Frequency Energy Profile (DC → Nyquist)</span>
+              <span class="mono-tag">Detects upsampling periodicity &amp; diffusion roll-off</span>
+            </div>
+            <svg id="radialSpectrumSvg" viewBox="0 0 600 130" class="radial-svg" aria-label="Radial FFT energy chart"></svg>
+          </div>
+        </div>
+
+        <!-- TAB 3: SCAN HISTORY -->
+        <div class="wb-panel" id="panel-history">
+          <div class="wb-header-row">
+            <div>
+              <h2 class="wb-title">Session Scan History</h2>
+              <p class="wb-subtitle">Click any previously analyzed image in this session to restore its heatmaps and telemetry.</p>
+            </div>
+            <button type="button" class="btn-secondary btn-sm pressable" id="clearHistoryBtn">Clear History</button>
+          </div>
+          <div id="historyListContainer" class="history-grid">
+            <div class="empty-state">No images analyzed in this session yet. Upload an image or pick a sample to begin.</div>
+          </div>
+        </div>
+
+        <!-- TAB 4: FORENSIC REPORTS -->
+        <div class="wb-panel" id="panel-reports">
+          <div class="wb-header-row">
+            <div>
+              <h2 class="wb-title">Automated Forensic Dossier</h2>
+              <p class="wb-subtitle">Structured machine-readable JSON &amp; printable audit report for the active image.</p>
+            </div>
+            <div class="report-actions-row">
+              <button type="button" class="btn-primary btn-sm pressable" id="reportTabPrintBtn">Print PDF Report</button>
+              <button type="button" class="btn-secondary btn-sm pressable" id="reportTabJsonBtn">Export Raw JSON</button>
+            </div>
+          </div>
+          <pre class="json-viewer" id="jsonReportViewer">Run an analysis first to generate a structured forensic report.</pre>
+        </div>
+
+        <!-- TAB 5: VLM & ENGINE SETTINGS -->
+        <div class="wb-panel" id="panel-settings">
+          <div class="wb-header-row">
+            <div>
+              <h2 class="wb-title">VLM &amp; Dual-Branch Configuration</h2>
+              <p class="wb-subtitle">Live status of your <code>.env</code> API keys and inference routing pipeline.</p>
+            </div>
+            <button type="button" class="btn-secondary btn-sm pressable" id="refreshEnvBtn">Re-check .env Keys</button>
+          </div>
+          <div class="settings-cards">
+            <div class="setting-item">
+              <div class="setting-head">
+                <span class="setting-name">Primary VLM: Groq Free Vision API (<code>GROQ_API_KEY</code>)</span>
+                <span class="status-pill" id="groqStatusBadge">Checking…</span>
+              </div>
+              <p class="setting-desc">Uses <code>qwen/qwen3.8-27b</code> vision (with fallback to <code>openai/gpt-oss-120b</code>) for physical lighting, reflection, and semantic artifact inspection.</p>
+            </div>
+            <div class="setting-item">
+              <div class="setting-head">
+                <span class="setting-name">Secondary Free VLM: OpenRouter Vision API (<code>OPENROUTER_API_KEY</code>)</span>
+                <span class="status-pill" id="openrouterStatusBadge">Checking…</span>
+              </div>
+              <p class="setting-desc">Uses <code>nvidia/nemotron-3.5-super-vl:free</code> and <code>openrouter/free</code> auto-router when Groq vision tokens are rate-limited.</p>
+            </div>
+            <div class="setting-item">
+              <div class="setting-head">
+                <span class="setting-name">Fallback VLM: OpenAI Vision API (<code>OPENAI_API_KEY</code>)</span>
+                <span class="status-pill" id="openaiStatusBadge">Checking…</span>
+              </div>
+              <p class="setting-desc">Automatically engages <code>gpt-4o-mini</code> if Groq and OpenRouter are unconfigured or rate-limited.</p>
+            </div>
+            <div class="setting-item">
+              <div class="setting-head">
+                <span class="setting-name">Local Spatial + Frequency Signal Core</span>
+                <span class="status-pill pill-ok">Always Active</span>
+              </div>
+              <p class="setting-desc">Runs 2D FFT azimuthal peak detection, Error Level Analysis (ELA), high-pass noise residual localization, and EXIF/C2PA inspection locally on every image.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture Summary Section -->
+    <section class="arch-section" id="architectureSection">
+      <div class="arch-header">
+        <span class="eyebrow">DUAL-DOMAIN + VLM METHODOLOGY</span>
+        <h2 class="arch-title">How VisionForensics-X Evaluates Every Image</h2>
+      </div>
+      <div class="arch-cards">
+        <div class="arch-card">
+          <div class="arch-num">01</div>
+          <h3>Preprocessing &amp; Container Audit</h3>
+          <p>Validates image integrity, extracts camera EXIF optical tags, inspects JPEG quantization tables, and scans for embedded C2PA / diffusion generator signatures.</p>
+        </div>
+        <div class="arch-card">
+          <div class="arch-num">02</div>
+          <h3>Spatial &amp; Tamper Localization</h3>
+          <p>Extracts high-pass noise residuals and 90% JPEG Error Level Analysis (ELA) variance maps to generate Grad-CAM style suspicious-region heatmaps.</p>
+        </div>
+        <div class="arch-card">
+          <div class="arch-num">03</div>
+          <h3>2D FFT Spectral Branch</h3>
+          <p>Transforms luminance channels into the frequency domain with Hanning windowing to expose periodic upsampling peaks and unnatural high-frequency roll-off.</p>
+        </div>
+        <div class="arch-card">
+          <div class="arch-num">04</div>
+          <h3>Feature Fusion &amp; VLM Reasoning</h3>
+          <p>Combines signal scores with Groq / OpenAI VLM semantic checks to output calibrated authenticity probabilities, generator family attribution, and uncertainty warnings.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Login Modal Dialog (Matches bottom-left reference screen; uses modern <dialog closedby="any">) -->
+  <dialog id="loginDialog" class="auth-dialog" closedby="any" aria-labelledby="loginDialogTitle">
+    <div class="auth-modal-grid">
+      <div class="auth-visual-pane">
+        <div class="auth-visual-badge">VISIONFORENSICS-X SECURITY</div>
+        <h3>Secure Access<br />for a Safer Digital World</h3>
+        <p>Verify. Validate. Keep the truth alive.</p>
+      </div>
+      <div class="auth-form-pane">
+        <div class="auth-form-top">
+          <div>
+            <h2 id="loginDialogTitle">Welcome Back</h2>
+            <p class="auth-sub">Sign in to continue to VisionForensics-X</p>
+          </div>
+          <button type="button" class="dialog-close-btn pressable" id="closeLoginBtn" aria-label="Close Login Dialog">✕</button>
+        </div>
+        <form id="loginForm" novalidate>
+          <div class="field-group">
+            <label for="loginEmail" class="sr-only">Email Address</label>
+            <div class="input-box">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+              <input type="email" id="loginEmail" name="email" placeholder="Email Address" autocomplete="email" required value="mini@visionforensics.ai" />
+            </div>
+          </div>
+          <div class="field-group">
+            <label for="loginPassword" class="sr-only">Password</label>
+            <div class="input-box">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <input type="password" id="loginPassword" name="password" placeholder="Password" autocomplete="current-password" required value="••••••••••••" />
+            </div>
+          </div>
+          <div class="auth-row-between">
+            <label for="rememberMeCheck" class="checkbox-label">
+              <input type="checkbox" id="rememberMeCheck" class="visually-hidden" checked />
+              <span>Remember me</span>
+            </label>
+            <span class="auth-link">Analyst Session</span>
+          </div>
+          <button type="submit" class="btn-primary btn-full pressable">
+            <span>Login</span>
+            <span class="arrow-shift">→</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="/app.js"></script>
+</body>
+</html>
